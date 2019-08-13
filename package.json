@@ -1,6 +1,6 @@
 {
-  "name": "fsm",
-  "version": "1.0.0",
+  "name": "fsm_js",
+  "version": "0.1.0",
   "description": "",
   "main": "fsm.js",
   "scripts": {
