@@ -1,15 +1,14 @@
 (function(exports) {
-
-  function State (itentifier, transitions, options) {
+  function State(itentifier, transitions, options) {
     if (options == null || options == undefined) {
       options = {};
     }
-    var transitionsList = []
+    var transitionsList = [];
 
     if (transitions) {
-      transitionsList = transitions.map(function (transition) {
+      transitionsList = transitions.map(function(transition) {
         if (!transition.getCandidate || !transition.testEntity) {
-          return Transition({to: transition});
+          return Transition({ to: transition });
         }
         return transition;
       });
@@ -17,9 +16,9 @@
 
     return {
       isInitial: options && options.initial && false,
-      identify (candidat) {
-        if (typeof itentifier == 'function') {
-          return itentifier (candidat);
+      identify(candidat) {
+        if (typeof itentifier == "function") {
+          return itentifier(candidat);
         } else {
           return itentifier == candidat;
         }
@@ -28,27 +27,27 @@
     };
   }
 
-  function Transition (options) {
+  function Transition(options) {
     validateTransitionOptions(options);
     return {
       name: options.name,
       onTransition: options.onTransition,
-      getCandidate: function () {
+      getCandidate: function() {
         if (options.generateEntity) {
           return options.generateEntity();
         }
         return options.to;
       },
-      testEntity: function (entity) {
+      testEntity: function(entity) {
         if (options.canTransite) {
           return options.canTransite(entity);
         }
         return options.to == entity;
       }
-    }
+    };
   }
 
-  function Machine (statesList, options) {
+  function Machine(statesList, options) {
     validateStateList(statesList);
     if (options == null || options == undefined) {
       options = {};
@@ -59,7 +58,7 @@
     var result = options && options.initResult;
 
     function findStateIndexForCandidat(candidat) {
-      var state = statesList.find(state => state.identify(candidat))
+      var state = statesList.find(state => state.identify(candidat));
       return statesList.indexOf(state);
     }
 
@@ -76,7 +75,9 @@
 
     function findTransitionForEntity(entity) {
       var state = statesList[currentIndex];
-      return state.transitionsList.find(transition => transition.testEntity(entity));
+      return state.transitionsList.find(transition =>
+        transition.testEntity(entity)
+      );
     }
 
     function findTransitionByName(name) {
@@ -87,7 +88,8 @@
     function handleTransition(entity, name) {
       var details = getTransitionDetails(entity, name);
       if (!details) {
-        options.onUnsupportedTransition && options.onUnsupportedTransition(lastEntity(), entity);
+        options.onUnsupportedTransition &&
+          options.onUnsupportedTransition(lastEntity(), entity);
         return false;
       }
       if (details.transition.onTransition) {
@@ -130,49 +132,54 @@
     }
 
     return {
-      go: function (entity) {
+      go: function(entity) {
         return handleTransition(entity);
       },
-      run: function (name) {
+      run: function(name) {
         return handleTransition(null, name);
       },
-      isFinished: function () {
-        return statesList[currentIndex].transitionsList == null || statesList[currentIndex].transitionsList.length == 0;
+      isFinished: function() {
+        return (
+          statesList[currentIndex].transitionsList == null ||
+          statesList[currentIndex].transitionsList.length == 0
+        );
       },
-      history: function () {
+      history: function() {
         return history;
       },
-      result: function () {
+      result: function() {
         return result;
       },
-      last: function () {
+      last: function() {
         return lastEntity();
       },
-      canTransite: function (entity) {
+      canTransite: function(entity) {
         var details = getTransitionDetails(entity);
         return !!details;
       }
-    }
+    };
   }
 
   function validateStateList(statesList) {
     for (var state of statesList) {
       if (!state.identify) {
-        throw error('Machine must receive array of States, and each state must have identifier');
+        throw error(
+          "Machine must receive array of States, and each state must have identifier"
+        );
       }
     }
   }
 
   function validateTransitionOptions(options) {
     if (options == null || options == undefined) {
-      throw error('Transition must have parameter');
+      throw error("Transition must have parameter");
     }
   }
 
   function error(message) {
     return {
-      message: 'fsm: ' + message,
-      toString () {
+      message: "fsm: " + message,
+      toString() {
         return this.message;
       }
     };
