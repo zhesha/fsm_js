@@ -1,0 +1,17 @@
+{
+  "name": "fsm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fsm.js",
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --collectCoverage",
+    "prett": "prettier --write fsm.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "prettier": "^1.18.2"
+  }
+}
