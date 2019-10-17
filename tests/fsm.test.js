@@ -291,3 +291,18 @@ test("Won't go if transition wrong", function() {
 
   expect(machine.go("wrong")).toBe(false);
 });
+
+test("restart works", function() {
+  var machine = Machine([
+    State("solid", ["liquid"], { initial: true }),
+    State("liquid", ["solid", "gas"]),
+    State("gas", ["liquid"])
+  ]);
+
+  expect(machine.go("liquid")).toBe(true);
+
+  machine.restart();
+
+  expect(machine.history()).toEqual([]);
+  expect(machine.go("gas")).toBe(false);
+});

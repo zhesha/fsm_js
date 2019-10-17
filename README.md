@@ -101,6 +101,8 @@ m.canTransite(entity)
 m.history()
 // returns gathered result
 m.result()
+// reset state
+m.restart()
 ```
 
 ## State

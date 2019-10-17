@@ -1,6 +1,6 @@
 {
   "name": "@sasha-z/fsm_js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "fsm - Finite-state machine",
   "keywords": ["fsm", "FSM", "fsm_js", "fsm.js", "fsm-js", "Finite-state machine", "state machine", "Finite-state machine", "machine"],
   "main": "fsm.js",

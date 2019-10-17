@@ -53,9 +53,14 @@
       options = {};
     }
 
-    var currentIndex = statesList.find(state => state.isInitial) || 0;
-    var history = [];
-    var result = options && options.initResult;
+    var currentIndex, history, result;
+    start();
+
+    function start() {
+      currentIndex = statesList.find(state => state.isInitial) || 0;
+      history = [];
+      result = options && options.initResult;
+    }
 
     function findStateIndexForCandidat(candidat) {
       var state = statesList.find(state => state.identify(candidat));
@@ -156,6 +161,9 @@
       canTransite: function(entity) {
         var details = getTransitionDetails(entity);
         return !!details;
+      },
+      restart: function () {
+        start();
       }
     };
   }
